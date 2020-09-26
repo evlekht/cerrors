@@ -20,7 +20,7 @@ func (cerr CustomError) Error() string {
 	return message
 }
 
-func (cerr CustomError) Append(err error) {
+func (cerr *CustomError) Append(err error) {
 	cerr.errs = append(cerr.errs, err)
 }
 
