@@ -11,11 +11,11 @@ type CustomError struct {
 func (cerr CustomError) Error() string {
 	n := len(cerr.errs)
 	if n == 0 {
-		return ""
+		return cerr.message
 	}
-	message := cerr.errs[0].Error()
+	message := fmt.Sprintf("%s : %s", cerr.message, cerr.errs[0].Error())
 	for i := 1; i < n; i++ {
-		message += cerr.delimiter + cerr.errs[i].Error()
+		message = fmt.Sprintf("%s%s%s", message, cerr.delimiter, cerr.errs[i].Error())
 	}
 	return message
 }
