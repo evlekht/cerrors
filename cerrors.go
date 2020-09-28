@@ -20,6 +20,10 @@ func (cerr CustomError) Error() string {
 	return message
 }
 
+func (cerr *CustomError) HasErrors() bool {
+	return len(cerr.errs) > 0
+}
+
 func (cerr *CustomError) Append(err error) {
 	cerr.errs = append(cerr.errs, err)
 }
