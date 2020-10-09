@@ -28,6 +28,10 @@ func (cerr *CustomError) Append(err error) {
 	cerr.errs = append(cerr.errs, err)
 }
 
+func (cerr *CustomError) AppendStr(str string) {
+	cerr.errs = append(cerr.errs, fmt.Errorf(str))
+}
+
 func New(errors ...error) *CustomError {
 	cerr := &CustomError{
 		errs: make([]error, 0),
