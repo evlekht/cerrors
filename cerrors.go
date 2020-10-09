@@ -28,10 +28,14 @@ func (cerr *CustomError) Append(err error) {
 	cerr.errs = append(cerr.errs, err)
 }
 
-func New() *CustomError {
-	return &CustomError{
+func New(errors ...error) *CustomError {
+	cerr := &CustomError{
 		errs: make([]error, 0),
 	}
+	for _, err := range errors {
+		cerr.Append(err)
+	}
+	return cerr
 }
 
 func Newf(msg string, args ...interface{}) *CustomError {
