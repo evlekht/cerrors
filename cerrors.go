@@ -5,7 +5,7 @@ import "fmt"
 type CustomError struct {
 	errs      []error
 	message   string
-	delimiter string `default:", "`
+	delimiter string
 }
 
 func (cerr CustomError) Error() string {
@@ -13,7 +13,12 @@ func (cerr CustomError) Error() string {
 	if n == 0 {
 		return cerr.message
 	}
-	message := fmt.Sprintf("%s : %s", cerr.message, cerr.errs[0].Error())
+	var message string
+	if len(cerr.message) > 0 {
+		message = fmt.Sprintf("%s : %s", cerr.message, cerr.errs[0].Error())
+	} else {
+		message = cerr.errs[0].Error()
+	}
 	for i := 1; i < n; i++ {
 		message = fmt.Sprintf("%s%s%s", message, cerr.delimiter, cerr.errs[i].Error())
 	}
@@ -34,7 +39,8 @@ func (cerr *CustomError) AppendStr(str string) {
 
 func New(errors ...error) *CustomError {
 	cerr := &CustomError{
-		errs: make([]error, 0),
+		errs:      make([]error, 0),
+		delimiter: ", ",
 	}
 	for _, err := range errors {
 		cerr.Append(err)
